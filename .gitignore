@@ -1,0 +1,38 @@
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Folder config file
+[Dd]esktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+DxLib/
+Game/.vs/
+Game/Game/x64/
+AppFrame/x64/Debug/AppFrame.log
+AppFrame/x64/Debug/ApplicationBase.obj
+AppFrame/x64/Debug/CFile.obj
+AppFrame/x64/Debug/Collision.obj
+AppFrame/x64/Debug/GamePad.obj
+AppFrame/x64/Debug/ModeBase.obj
+AppFrame/x64/Debug/ModeServer.obj
+AppFrame/x64/Debug/mymath.obj
+AppFrame/x64/Debug/Vector3D.obj
+AppFrame/x64/Debug/WinMain.obj
+Game/x64/
