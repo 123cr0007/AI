@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="source\ApplicationMain.cpp" />
     <ClCompile Include="source\Camera.cpp" />
+    <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\ModeGame.cpp" />
     <ClCompile Include="source\ObjectBase.cpp" />
     <ClCompile Include="source\ObjectManager.cpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h" />
     <ClInclude Include="source\Camera.h" />
+    <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\ModeGame.h" />
     <ClInclude Include="source\ObjectBase.h" />
     <ClInclude Include="source\ObjectManager.h" />

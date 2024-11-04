@@ -1,10 +1,12 @@
 #include "ObjectManager.h"
+#include "Enemy.h"
 
 ObjectManager* ObjectManager::ObjInstance = new ObjectManager();
 ObjectManager::ObjectManager() {
 
 	ObjInstance = this;
 
+	AddObject(new Enemy());
 	isClear = false;
 }
 
