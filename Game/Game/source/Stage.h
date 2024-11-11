@@ -1,8 +1,10 @@
 #pragma once
 #include "appframe.h"
 #include "ApplicationMain.h"
+#include <vector>
+#include <algorithm>
 
-constexpr auto ST_DIVNUM = 10;				// ステージを分割する数
+constexpr auto ST_DIVNUM = 10;				// ステージを分割する一軸の数
 constexpr auto STAGE_CANGETIME = -1 * 60;	// ステージの取得時間(-1だと変更なし)
 constexpr auto OBSITACLE_NUM = 4;			// お邪魔の数
 constexpr auto OBST_DISTANS_X = 3;			// お邪魔の間隔
@@ -25,6 +27,7 @@ class Stage {
 
 	bool GetStageSize();	// 正方形限定でステージの大きさを取得できる
 	bool SetStDivePos();	// ステージの大きさがわかっていたらステージを分割していく
+
 
 	// ゲッター
 	int GetStageModel() { return stageModel; }
@@ -55,9 +58,9 @@ class Stage {
 		bool isSafety;		// 安全な場所かどうか
 		bool isObstacle;	// お邪魔があるかどうか
 		bool isOpen;		// ステージが開いているかどうか
+		bool canOpen;		// ステージが開けるかどうか
 	};
 	std::vector<STAGE_INFO> stInfo;
-	std::vector<STAGE_INFO> safepointInfo;
 
 	// 分割されたステージの情報
 	VECTOR stDivePos[ST_DIVNUM + 1][ST_DIVNUM + 1];
@@ -85,10 +88,6 @@ public:
 		return stInfo;
 	}
 
-	const std::vector<STAGE_INFO>& GetSafePointInfo() const {
-		return safepointInfo;
-	}
-
 	bool SetStageFillFlag(int x, int y, bool flag) {
 		for (auto& st : stInfo) {
 			if (st.stXArray == x && st.stYArray == y) {
@@ -99,34 +98,37 @@ public:
 		return false;
 	}
 
-	bool SetStIsObstacle(int x, int y, bool flag) {
+	bool SetStageFillcolor(int x, int y, int color) {
 		for (auto& st : stInfo) {
 			if (st.stXArray == x && st.stYArray == y) {
-				st.isObstacle = flag;
+				st.color = color;
 				return true;
 			}
 		}
 		return false;
 	}
 
-
-	VECTOR GetStDivePos(int x, int y) {
-
-		for (auto& st : stInfo) {
-			if (st.stXArray == x && st.stYArray == y) {
-				return st.centerPos;
-			}
-		}
-		return VGet(0, 0, 0);
+	bool SetStCanOpenFlag(int i, bool flag) {
+		
+		stInfo[i].canOpen = flag;
+		return false;
 	}
 
-	bool GetStIsObstacle(int x, int y) {
+	bool SetStOpenFlag(int i, bool flag) {
 
-		for (auto& st : stInfo) {
-			if (st.stXArray == x && st.stYArray == y) {
-				return st.isObstacle;
-			}
-		}
+		stInfo[i].isOpen = flag;
+		return false;
+	}
+
+	bool SetStFillFlag(int i, bool flag) {
+
+		stInfo[i].fillFlag = flag;
+		return false;
+	}
+
+	bool SetStFillColor(int i, int color) {
+
+		stInfo[i].color = color;
 		return false;
 	}
 };

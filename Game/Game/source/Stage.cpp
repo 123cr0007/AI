@@ -1,4 +1,5 @@
 #include "Stage.h"
+#include "Enemy.h"
 #include "ApplicationMain.h"
 
 Stage* Stage::StInstance = nullptr;
@@ -62,7 +63,6 @@ bool Stage::Process() {
 
 	// ステージのサイズを取得
 	// 一回描画の処理を通してカメラの位置更新しないと取れないため以下の処理を行う
-
 	if (processCunt > 0) {
 		GetStageSize();
 		processCunt = -1;
@@ -83,17 +83,9 @@ bool Stage::Render() {
 	MV1SetPosition(stageModel, stPos);
 	MV1DrawModel(stageModel);
 
-	//MV1DrawModel(obstModel);
-
-	/*for (auto& obst : obstInfo) {
-		MV1SetPosition(obst.obstHandle, obst.obstPos);
-		MV1DrawModel(obst.obstHandle);
-	}*/
-
 #ifdef _DEBUG
 	DrawFormatString(0, 200, GetColor(0, 0, 0), "stXNum:%d stYNum:%d", stXNum, stYNum);
 
-	int n = 1;
 	// ステージの描画
 	for (auto& st : stInfo) {
 
@@ -105,25 +97,19 @@ bool Stage::Render() {
 		VECTOR sPos = VGet(st.centerPos.x, st.centerPos.y, st.centerPos.z);
 		VECTOR sPos2 = VGet(st.centerPos.x, st.centerPos.y + 5.0f, st.centerPos.z);
 
+		// 四角形の描画
 		DrawLine3D(pos1, pos2, st.color);
 		DrawLine3D(pos2, pos3, st.color);
 		DrawLine3D(pos3, pos4, st.color);
 		DrawLine3D(pos4, pos1, st.color);
 
-		/*DrawLine3D(sPos, sPos2, st.color);*/
+		// 塗りつぶし
+		DrawTriangle3D(pos1, pos2, pos3, st.color, st.fillFlag);
+		DrawTriangle3D(pos3, pos4, pos1, st.color, st.fillFlag);
 	}
 
-	for (auto& st : safepointInfo) {
+	int n = 1;
 
-		DrawFormatString(0, 600 + (n * 20), GetColor(0, 0, 0),
-			"pos %f %f %f", st.pos[0], st.pos[1], st.pos[2]);
-		DrawFormatString(0, 600 + (n * 20 + 20), GetColor(0, 0, 0),
-			"Array:%d %d", st.stXArray, st.stYArray);
-		n += 2;
-	}
-	
-
-	DrawFormatString(0, 620 + (n * 20 + 20), GetColor(0, 0, 0), "SafeNum %d", safepointInfo.size());
 	DrawFormatString(0, 640 + (n * 20 + 20), GetColor(0, 0, 0), "SafeNum %d", stInfo.size());
 
 #endif
@@ -264,11 +250,18 @@ bool Stage::SetStDivePos() {
 
 			sInfo.isSafety = false;
 			sInfo.isObstacle = false;
-			sInfo.isOpen = true;
+			sInfo.isOpen = false;
+			sInfo.canOpen = true;
 
+			if (i == 0 && j == 0) {
+				Enemy::GetEnInstance()->SetPos(sInfo.centerPos);
+			}
 			stInfo.push_back(sInfo);
 		}
 	}
+
+	int a = stInfo.size();
+	int b = 0;
 
 	return true;
 }

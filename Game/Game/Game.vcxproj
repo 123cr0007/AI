@@ -156,21 +156,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\ApplicationMain.cpp" />
+    <ClCompile Include="source\Astar.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\ModeGame.cpp" />
     <ClCompile Include="source\ObjectBase.cpp" />
     <ClCompile Include="source\ObjectManager.cpp" />
+    <ClCompile Include="source\Obstacle.cpp" />
+    <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\Stage.cpp" />
+    <ClCompile Include="source\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ApplicationMain.h" />
+    <ClInclude Include="source\Astar.h" />
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\ModeGame.h" />
     <ClInclude Include="source\ObjectBase.h" />
     <ClInclude Include="source\ObjectManager.h" />
+    <ClInclude Include="source\Obstacle.h" />
+    <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\Stage.h" />
+    <ClInclude Include="source\UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

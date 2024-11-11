@@ -3,6 +3,10 @@
 #include "ApplicationMain.h"
 #include "ModeGame.h"
 
+namespace AMG_0007{
+	bool isModeDebug = false;
+}
+
 
 ApplicationMain				g_oApplicationMain;
 

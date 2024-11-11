@@ -1,9 +1,12 @@
 #pragma once
 
 #include "appframe.h"
+#include "ObjectManager.h"
 #include "Camera.h"
 #include "Stage.h"
-#include "ObjectManager.h"
+#include "Obstacle.h"
+#include "UI.h"
+#include "Astar.h"
 #include <string>
 
 // モード
@@ -27,6 +30,15 @@ protected:
 	// ステージ
 	Stage* stage;
 
+	// 障害物
+	Obstacle* obst;
+
 	// オブジェクト管理
 	ObjectManager* Mobj;
+
+	// UI
+	UI* ui;
+
+	// A*
+	Astar* astar;
 }; 

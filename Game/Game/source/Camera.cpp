@@ -11,7 +11,7 @@ Camera::Camera() {
 	_clipFar = 500000.f;
 
 	radY = DegToRad(-90);	//Y²‰ñ“]
-	radH = DegToRad(40);		//‚‚³‚ÌŠp“x
+	radH = DegToRad(90);		//‚‚³‚ÌŠp“x
 	CamDist = START_DIST;	//ƒJƒƒ‰‚Æ‚Ì‹——£
 }
 

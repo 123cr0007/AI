@@ -8,7 +8,10 @@ ModeGame::ModeGame() {
 	// 変数の初期化
 	Cam = nullptr;
 	stage = nullptr;
+	obst = nullptr;
 	Mobj = nullptr;
+	ui = nullptr;
+	astar = nullptr;
 }
 
 bool ModeGame::Initialize() {
@@ -22,9 +25,21 @@ bool ModeGame::Initialize() {
 	stage = new Stage();
 	stage->Initialize();
 
+	// 障害物を定義
+	obst = new Obstacle();
+	obst->Initialize();
+
 	// オブジェクト定義
 	Mobj = new ObjectManager();
 	Mobj->Initialize();
+
+	// UI定義
+	ui = new UI();
+	ui->Initialize();
+
+	// A*アルゴリズム
+	astar = new Astar();
+	astar->Initialize();
 
 	return true;
 }
@@ -39,8 +54,17 @@ bool ModeGame::Terminate() {
 	delete stage;
 	stage = nullptr;
 
+	delete obst;
+	obst = nullptr;
+
 	delete Mobj;
 	Mobj = nullptr;
+
+	delete ui;
+	ui = nullptr;
+
+	delete astar;
+	astar = nullptr;
 
 	return true;
 }
@@ -50,6 +74,17 @@ bool ModeGame::Process() {
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
+	if (key) {
+		int a = 0;
+	/*	if (AMG_0007::isModeDebug) {
+			AMG_0007::isModeDebug = false;
+		}
+		else {
+			AMG_0007::isModeDebug = true;
+		}*/
+		
+	}
+
 
 	// カメラの更新
 	Cam->Process();
@@ -57,9 +92,18 @@ bool ModeGame::Process() {
 	// ステージの更新
 	stage->Process();
 
+	// 障害物の更新
+	obst->Process();
+
 	// オブジェクト更新
-	Mobj->Update();
-	
+	// Mobj->Update();
+
+	// UI更新
+	ui->Process();
+
+	// A*アルゴリズム
+	astar->Process();
+
 	return true;
 }
 
@@ -74,11 +118,22 @@ bool ModeGame::Render() {
 	// ステージの描画
 	stage->Render();
 
+	// 障害物の描画
+	obst->Render();
+
 	// カメラの描画
 	Cam->Render();
 
 	// オブジェクト描画
 	Mobj->Draw();
+
+	// UI描画
+	ui->Render();
+
+	// A*アルゴリズム
+	astar->Render();
+
+	DrawFormatString(1200, 20, GetColor(255, 255, 255), "st = %d", Stage::GetStInstance()->GetStageInfo().size());
 
 	return true;
 }

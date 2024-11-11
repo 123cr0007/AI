@@ -1,12 +1,18 @@
 #include "ObjectManager.h"
-#include "Enemy.h"
+#include "Enemy.h" 
+#include "Player.h"
 
 ObjectManager* ObjectManager::ObjInstance = new ObjectManager();
 ObjectManager::ObjectManager() {
 
 	ObjInstance = this;
 
-	AddObject(new Enemy());
+	// オブジェクトの追加
+	AddObject(new Enemy);
+	// ここコメントアウト外せば敵増やせる
+	//AddObject(new Enemy);
+	AddObject(new Player);
+
 	isClear = false;
 }
 

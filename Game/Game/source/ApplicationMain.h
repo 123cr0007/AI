@@ -22,3 +22,10 @@ public:
 protected:
 
 }; 
+
+//名前かぶり怖いためネームスペースに格納
+namespace AMG_0007 {
+
+	extern bool isModeDebug;
+}
+
