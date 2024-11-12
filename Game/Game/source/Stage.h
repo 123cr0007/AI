@@ -88,47 +88,47 @@ public:
 		return stInfo;
 	}
 
-	bool SetStageFillFlag(int x, int y, bool flag) {
+	VECTOR GetStagePositoin(int x, int y) {
+		for (auto& st : stInfo) {
+			if (st.stXArray == x && st.stYArray == y) {
+				return st.centerPos;
+			}
+		}
+	}	
+
+	void SetStageFillFlag(int x, int y, bool flag) {
 		for (auto& st : stInfo) {
 			if (st.stXArray == x && st.stYArray == y) {
 				st.fillFlag = flag;
-				return true;
 			}
 		}
-		return false;
 	}
 
-	bool SetStageFillcolor(int x, int y, int color) {
+	void SetStageFillcolor(int x, int y, int color) {
 		for (auto& st : stInfo) {
 			if (st.stXArray == x && st.stYArray == y) {
 				st.color = color;
-				return true;
 			}
 		}
-		return false;
 	}
 
-	bool SetStCanOpenFlag(int i, bool flag) {
+	void SetStCanOpenFlag(int i, bool flag) {
 		
 		stInfo[i].canOpen = flag;
-		return false;
 	}
 
-	bool SetStOpenFlag(int i, bool flag) {
+	void SetStOpenFlag(int i, bool flag) {
 
 		stInfo[i].isOpen = flag;
-		return false;
 	}
 
-	bool SetStFillFlag(int i, bool flag) {
+	void SetStFillFlag(int i, bool flag) {
 
 		stInfo[i].fillFlag = flag;
-		return false;
 	}
 
-	bool SetStFillColor(int i, int color) {
+	void SetStFillColor(int i, int color) {
 
 		stInfo[i].color = color;
-		return false;
 	}
 };

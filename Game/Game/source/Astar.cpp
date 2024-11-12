@@ -7,6 +7,8 @@ Astar::Astar()
 {
 	AsInstance = this;
 
+	x = 0;
+	y = 0;
 	if (Enemy::GetEnInstance() != nullptr)
 	{
 		startX = Enemy::GetEnInstance()->GetStartX();
@@ -21,7 +23,8 @@ Astar::Astar()
 		goalX = 0;
 		goalY = 0;
 	}
-
+	debugCount = 0;
+	debugNodeNum = 0;
 }
 
 Astar::~Astar() 
@@ -53,7 +56,7 @@ bool Astar::Process()
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	if (trg & PAD_INPUT_1)
+	if (key & PAD_INPUT_1)
 	{
 		AstarAlgorithm(startX, startY, goalX, goalY);
 	}
@@ -68,13 +71,22 @@ bool Astar::Process()
 bool Astar::Render()
 {
 	DrawFormatString(0, 400, GetColor(255, 255, 255), "x = %d,y = %d", startX, startY);
+	VECTOR tempPos = VGet(0,0,0);
+	VECTOR tempPos2 = VGet(0, 0, 0);
+		for (auto&& route : routeInfo)
+		{
+			tempPos = route.goalPos;
+			tempPos2 = VGet(route.goalPos.x, route.goalPos.y + 5, route.goalPos.z);
+			DrawLine3D(tempPos, tempPos2, GetColor(255, 255, 255));
+		}
+	
 	return true;
 }
 
 bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 {
 
-	if (nodeX == goalX && nodeY == goalY) {
+	if (x == goalX && y == goalY) {
 		return true;
 	}
 
@@ -89,17 +101,19 @@ bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 
 
 	// スタートのノードを設定
-	if(degugCount != -1){
+	if(debugCount != -1){
 		NODE_INFO startNode;
 		startNode.nodeX = nodeX;
 		startNode.nodeY = nodeY;
+		startNode.position = Stage::GetStInstance()->GetStagePositoin(nodeX, nodeY);
 		startNode.movedCost = 0;
 		startNode.heuristic = abs(goalX - nodeX) + abs(goalY - nodeY);
 		startNode.totalCost = startNode.movedCost + startNode.heuristic;
-		startNode.nodeIndex = 0;
+		startNode.nodeIndex = debugNodeNum;
+		debugNodeNum++;
 		startNode.parentNode = -1;
 		openList.push_back(startNode);
-		degugCount = -1;
+		debugCount = -1;
 	}
 
 	// ソート
@@ -140,10 +154,12 @@ bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 					NODE_INFO tempNode;
 					tempNode.nodeX = tempNodeX;
 					tempNode.nodeY = tempNodeY;
+					tempNode.position = stage.centerPos;
 					tempNode.movedCost = openList[0].movedCost + 1;
 					tempNode.heuristic = abs(goalX - tempNodeX) + abs(goalY - tempNodeY);
 					tempNode.totalCost = tempNode.movedCost + tempNode.heuristic;
-					tempNode.nodeIndex = openList.size();
+					tempNode.nodeIndex = debugNodeNum;
+					debugNodeNum++;
 					tempNode.parentNode = openList[0].nodeIndex;
 					tempNode.stageIndex = tempStageIndex;
 
@@ -168,38 +184,45 @@ bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 	// 基準をクローズリストに移動
 	closeList.push_back(openList[0]);
 	Stage::GetStInstance()->SetStFillColor(openList[0].stageIndex, GetColor(255, 0, 0));
-	startX = openList[0].nodeX;
-	startY = openList[0].nodeY;
+	x = openList[0].nodeX;
+	y = openList[0].nodeY;
 	openList.erase(openList.begin());
 
 
 
 
 	// ルートの設定
-	{
-		/*if (heuristicCost.size() == 0)
+	if(x == goalX && y == goalY){
+		if (closeList.size() == 0)
 		{
 			return false;
 		}
-		startX += std::get<1>(heuristicCost[0]);
-		startY += std::get<2>(heuristicCost[0]);
+
+		std::sort
+		(
+			openList.begin(), openList.end(), [](const NODE_INFO& a, const NODE_INFO& b)
+			{
+				return a.totalCost < b.totalCost;
+			}
+		);
+		
+		int tempPereantNode = 0;
 
 		ROUTE_INFO tempRoute;
-		for (auto&& st : Stage::GetStInstance()->GetStageInfo())
+		for (int i = closeList.size(); i > 0; i--)
 		{
-			if (st.stXArray == nodeX && st.stYArray == nodeY)
+			auto&& node = closeList[i - 1];
+			if (tempPereantNode == 0 || tempPereantNode == node.nodeIndex)
 			{
-				tempRoute.nodeX = st.stXArray;
-				tempRoute.nodeY = st.stYArray;
+				tempRoute.goalPos = node.position;
+				tempRoute.nodeX = node.nodeX;
+				tempRoute.nodeY = node.nodeY;
+				tempRoute.isMoved = false;
+				tempPereantNode = node.parentNode;
+				routeInfo.push_back(tempRoute);
 			}
-
-			if (st.stXArray == startX && st.stYArray == startY)
-			{
-				tempRoute.goalPos = st.centerPos;
-			}
-			tempRoute.isMoved = false;
 		}
-		routeInfo.push_back(tempRoute);*/
+		int a = 0;
 	}
 
 	Stage::GetStInstance()->SetStageFillFlag(startX, startY, true);

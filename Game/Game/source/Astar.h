@@ -61,6 +61,7 @@ protected:
 
 		int nodeX;		// ノードのX座標
 		int nodeY;		// ノードのY座標
+		VECTOR position;	// ノードの位置
 		int movedCost;		// コスト(g値)
 		int heuristic;		// ヒューリスティック(h値)
 		int totalCost;		// 合計コスト(f値)
@@ -72,10 +73,12 @@ protected:
 	std::vector<NODE_INFO> openList;
 	std::vector<NODE_INFO> closeList;
 
+	int x, y;
 	int startX, startY;
 	int goalX, goalY;
 
-	int degugCount;
+	int debugCount;
+	int debugNodeNum;
 
 public:
 	// ゲッター
