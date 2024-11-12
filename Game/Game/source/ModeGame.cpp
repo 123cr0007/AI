@@ -2,6 +2,7 @@
 #include "AppFrame.h"
 #include "ApplicationMain.h"
 #include "ModeGame.h"
+#include "ModeGameClear.h"
 
 ModeGame::ModeGame() {
 
@@ -96,7 +97,7 @@ bool ModeGame::Process() {
 	obst->Process();
 
 	// オブジェクト更新
-	// Mobj->Update();
+//	Mobj->Update();
 
 	// UI更新
 	ui->Process();

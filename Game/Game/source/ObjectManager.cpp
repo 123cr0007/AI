@@ -1,6 +1,7 @@
 #include "ObjectManager.h"
 #include "Enemy.h" 
 #include "Player.h"
+#include "ModeGameClear.h"
 
 ObjectManager* ObjectManager::ObjInstance = new ObjectManager();
 ObjectManager::ObjectManager() {
@@ -37,6 +38,12 @@ bool ObjectManager::Update() {
 
 	for (auto object : m_objects) {
 		object->Process();
+	}
+
+	// “G‚Ì‘Ì—Í‚ª0‚È‚çƒQ[ƒ€ƒNƒŠƒA‚Ö
+	if (Enemy::GetEnInstance()->GetEnemyHP() <= 0) {
+
+		isClear = true;
 	}
 
 	return true;

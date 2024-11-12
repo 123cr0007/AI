@@ -2,6 +2,8 @@
 #include "appframe.h"
 #include "ApplicationMain.h"
 #include <vector>
+#include <cmath>
+
 
 constexpr auto OPEN_NUM = 4;	// ステージを分割する数
 
@@ -54,8 +56,26 @@ protected:
 	// シフト
 	std::vector<SHIFT_INFO> shiftInfo;
 
+	// ノード
+	struct NODE_INFO {
+
+		int nodeX;		// ノードのX座標
+		int nodeY;		// ノードのY座標
+		int movedCost;		// コスト(g値)
+		int heuristic;		// ヒューリスティック(h値)
+		int totalCost;		// 合計コスト(f値)
+		int nodeIndex;		// ノードのインデックス
+		int parentNode;		// 親ノードのインデックス
+		int stageIndex;		// ステージのインデックス(デバッグ用)
+	};
+	// ノードの情報
+	std::vector<NODE_INFO> openList;
+	std::vector<NODE_INFO> closeList;
+
 	int startX, startY;
 	int goalX, goalY;
+
+	int degugCount;
 
 public:
 	// ゲッター
