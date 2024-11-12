@@ -3,7 +3,7 @@
 #include "Enemy.h"
 
 Astar* Astar::AsInstance = nullptr;
-Astar::Astar() 
+Astar::Astar()
 {
 	AsInstance = this;
 
@@ -27,12 +27,12 @@ Astar::Astar()
 	debugNodeNum = 0;
 }
 
-Astar::~Astar() 
+Astar::~Astar()
 {
 
 }
 
-bool Astar::Initialize() 
+bool Astar::Initialize()
 {
 	// シフトの情報を設定
 	SetShiftInfo();
@@ -56,7 +56,7 @@ bool Astar::Process()
 	int key = ApplicationMain::GetInstance()->GetKey();
 	int trg = ApplicationMain::GetInstance()->GetTrg();
 
-	if (key & PAD_INPUT_1)
+	if (trg & PAD_INPUT_1)
 	{
 		AstarAlgorithm(startX, startY, goalX, goalY);
 	}
@@ -71,15 +71,15 @@ bool Astar::Process()
 bool Astar::Render()
 {
 	DrawFormatString(0, 400, GetColor(255, 255, 255), "x = %d,y = %d", startX, startY);
-	VECTOR tempPos = VGet(0,0,0);
+	VECTOR tempPos = VGet(0, 0, 0);
 	VECTOR tempPos2 = VGet(0, 0, 0);
-		for (auto&& route : routeInfo)
-		{
-			tempPos = route.goalPos;
-			tempPos2 = VGet(route.goalPos.x, route.goalPos.y + 5, route.goalPos.z);
-			DrawLine3D(tempPos, tempPos2, GetColor(255, 255, 255));
-		}
-	
+	for (auto&& route : routeInfo)
+	{
+		tempPos = route.goalPos;
+		tempPos2 = VGet(route.goalPos.x, route.goalPos.y + 5, route.goalPos.z);
+		DrawLine3D(tempPos, tempPos2, GetColor(255, 255, 255));
+	}
+
 	return true;
 }
 
@@ -101,7 +101,7 @@ bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 
 
 	// スタートのノードを設定
-	if(debugCount != -1){
+	if (debugCount != -1) {
 		NODE_INFO startNode;
 		startNode.nodeX = nodeX;
 		startNode.nodeY = nodeY;
@@ -177,7 +177,7 @@ bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 			Stage::GetStInstance()->SetStFillFlag(tempStageIndex, true);
 			openList[0].stageIndex = tempStageIndex;
 		}
-		
+
 		tempStageIndex++;
 	}
 
@@ -192,7 +192,7 @@ bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 
 
 	// ルートの設定
-	if(x == goalX && y == goalY){
+	if (x == goalX && y == goalY) {
 		if (closeList.size() == 0)
 		{
 			return false;
@@ -205,7 +205,7 @@ bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 				return a.totalCost < b.totalCost;
 			}
 		);
-		
+
 		int tempPereantNode = 0;
 
 		ROUTE_INFO tempRoute;
@@ -219,6 +219,7 @@ bool Astar::AstarAlgorithm(int nodeX, int nodeY, int goalX, int goalY)
 				tempRoute.nodeY = node.nodeY;
 				tempRoute.isMoved = false;
 				tempPereantNode = node.parentNode;
+				Stage::GetStInstance()->SetStFillColor(node.stageIndex, GetColor(255, 255, 255));
 				routeInfo.push_back(tempRoute);
 			}
 		}
